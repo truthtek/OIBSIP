@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="temp.js"></script>
+</head>
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.bgimg {
+    width: 100;
+    height: 100dvh;
+    background-image: linear-gradient(27deg, rgba(255, 255, 255, 0.3), black 50%);
+
+}
+
+.temp  {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(255, 255, 255, 0.3); 
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    padding: 20px; 
+    transform : translate(-50%, -50%);
+}
+h3 {
+    text-align: center;
+    color: black;
+    text-transform: uppercase;
+    font-size: 1.5em;
+    word-spacing: 10px;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    text-shadow: -2px 2px 1px rgba(255, 255, 255, 0.5);
+}
+
+::placeholder {
+    letter-spacing: 2px;
+}
+
+.degree {
+    display: flex;
+    gap: 40px;
+    flex-direction: row;
+    padding-bottom: 35px;
+}
+
+.degrees {
+    flex: 1; 
+    display: grid;
+    gap: 10px;
+
+}
+
+
+.degrees input  {
+    width: 90% ;
+    background: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: #cff0ff 0px 10px 10px -5px;
+   
+  }
+
+.degrees input[type = "text"] {
+    border: 0;
+    background:none;
+    display: block !important;
+    margin: 20px auto !important;
+    text-align: center !important;
+    border: 2px solid transparent;
+    padding: 14px, 10px;
+    width: 150px;
+    height: 40px auto;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+}
+
+
+.type {
+    flex: 1; 
+    display: grid;
+}
+
+.type .select {
+    border: 0;
+    background:none;
+    border: 2px solid transparent;
+    padding: 14px, 10px;
+    width: 150px;
+    height: 20px auto;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.5s
+}
+
+.result input {
+    width: 90% ;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    padding: 15px 20px;
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: #cff0ff 0px 10px 10px -5px;
+}
+.result input [type = "text"] {
+    border: 0;
+    background:none;
+    margin: 20px auto !important;
+    text-align: center !important;border: 2px solid transparent;
+    padding: 14px, 10px;
+    width: 280px;
+    height: 40px auto;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+}
+.button input[type = "text"] {
+    border: 0;
+    background:none;
+    display: block !important;
+    margin: 20px auto !important;
+    text-align: center !important;
+    border: 2px solid transparent;
+    height: 40px auto;
+    outline: none;
+    border-radius: 24px;
+}
+
+.button input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    padding: 15px 20px;
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: #cff0ff 0px 10px 10px -5px;
+     margin: 30px auto;
+}
+
+</style>
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            /* Your CSS styles */
+        </style>
+    </head>
+    <body>
+        <section id="projects">
+            <div class="bgimg">
+            <div class="temp">
+                <div>
+                    <h3>Temperature converter</h3>
+                </div>
+    
+                <div class="degree">
+                    <form action="" class="degrees">
+                        <label for="" id="first">Degrees</label>
+                        <input type="text" id="Degrees" placeholder="enter the value">
+                    </form>
+    
+                    <form action="" class="type">
+                        <label for="">Type</label>
+                        <select id="types" class="select">
+                            <option value="celsius">Celsius</option>
+                            <option value="fahrenheit">Fahrenheit</option>
+                        </select>
+                    </form>
+                </div>
+    
+                    <form action="" class="result">
+                        <label for="">Result</label>
+                        <input type="text" id="result" placeholder="0">
+                    </form>
+    
+                    <form action="" class="button">
+                        <input type="submit" id="submit" value="Convert">
+                    </form>
+                </div>
+            </div>
+        </section>
+    
+        <script>
+            const inputElement = document.getElementById("Degrees");
+            const typesElement = document.getElementById("types");
+            const resultElement = document.getElementById("result");
+    
+            if (inputElement && typesElement && resultElement) {
+                const convertTemperature = (temperature, fromScale, toScale) => {
+                    if (fromScale === "celsius") {
+                        return `${temperature}°C = ${(temperature * 9 / 5) + 32}°F`;
+                    } else if (fromScale === "fahrenheit") {
+                        return `${temperature}°F = ${(temperature - 32) * 5 / 9}°C`;
+                    }
+                };
+    
+                let prevTemperature = "";
+                let prevScale = "";
+    
+                const handleSubmit = (event) => {
+                    event.preventDefault(); 
+    
+                    const selectedValue = typesElement.value;
+                    const temperature = +inputElement.value;
+    
+                    if (
+                        temperature !== prevTemperature ||
+                        selectedValue !== prevScale
+                    ) {
+                        if (selectedValue === "celsius") {
+                            resultElement.value = convertTemperature(
+                                temperature,
+                                "celsius",
+                                "fahrenheit"
+                            );
+                        } else if (selectedValue === "fahrenheit") {
+                            resultElement.value = convertTemperature(
+                                temperature,
+                                "fahrenheit",
+                                "celsius"
+                            );
+                        } else {
+                            console.error("Invalid value");
+                        }
+    
+                        prevTemperature = temperature;
+                        prevScale = selectedValue;
+                    }
+                };
+    
+                const form = document.querySelector(".button");
+                form.addEventListener("submit", handleSubmit);
+            } else {
+                console.error("One or more elements not found");
+            }
+        </script>
+    </body>
+    </html>
+  
+</body>
+</html>
