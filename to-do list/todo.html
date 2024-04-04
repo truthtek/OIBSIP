@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List</title>
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+   background-color: #cc2936;
+}
+.container {
+    width: 400px auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #08415c; 
+    border-radius: 10px;
+    padding: 20px; 
+    transform : translate(-50%, -50%);
+}
+
+.container h1 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
+
+.input-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-right: 30px;
+}
+
+.input-container input {
+  background-color: #08415c;
+  border: none;
+  color: #dedede;
+  border-radius: 24px;
+  width: 80%;
+  margin-left: 28px;
+}
+
+.input-container input::placeholder {
+  color: white;
+  font-family: cursive;
+  font-style: italic;
+  font-size: 20px;
+}
+
+.input-container input:focus {
+  outline: none;
+}
+
+.input-container textarea  {
+  background-color: #08415c;
+  border: 2px solid #dedede;
+  color: #dedede;
+}
+
+.input-container textarea:focus {
+  outline: none;
+}
+
+.input-container button {
+  background-color: #cc2936;
+  color: #dedede;
+  border: none;
+  cursor: pointer;
+}
+
+.task {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-right: 30px;
+}
+
+.task .task-lists {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.task li {
+  list-style: none;
+  color: #dedede;
+}
+
+#task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin-left: 10px;
+    margin-bottom: 20px;
+  }
+
+</style>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>To-Do List</h1>
+    </div>
+    <div class="list">
+      <div class="input-container">
+        <input type="text" id="input-task" placeholder="Title">
+        <textarea name="message" placeholder="message" id="message" cols="30" rows="10"></textarea>
+        <button id="add-task">Add</button>
+      </div>
+    <div class="task">
+      <ul class="task-lists">
+        <li>Date&Time</li>
+        <li>Tittle</li>
+        <li>Description</li>
+        <li>Edit</li>
+        <li>Delete</li>
+      </ul>
+      <ul id="task-list" class=".tasks-list"></ul>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    const inputTask = document.getElementById('input-task');
+    const messagedesc = document.getElementById('message');
+    const addTaskButton = document.getElementById('add-task');
+    const taskList = document.getElementById('task-list');
+
+    addTaskButton.addEventListener('click', addTask);
+
+    function addTask() {
+      const taskText = inputTask.value.trim();
+      const message = messagedesc.value.trim();
+
+      if (taskText !== '') {
+        const taskItem = document.createElement('li');
+        taskItem.style.display = 'flex';
+        taskItem.style.flexDirection = 'row';
+        taskItem.style.gap = '20px';
+
+        const dateTimeSpan = document.createElement('span');
+        const currentDateTime = new Date().toLocaleString();
+        dateTimeSpan.textContent = currentDateTime;
+
+        const taskSpan = document.createElement('span');
+        taskSpan.textContent = taskText;
+
+        const messageSpan = document.createElement('span');
+        messageSpan.textContent = message;
+
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.addEventListener('click', editTask);
+        editButton.style.backgroundColor = '#08415c'; // Adjusted button color
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', deleteTask);
+        deleteButton.style.backgroundColor = '#cc2936'; // Adjusted button color
+
+        taskItem.appendChild(dateTimeSpan);
+        taskItem.appendChild(taskSpan);
+        taskItem.appendChild(messageSpan);
+        taskItem.appendChild(editButton);
+        taskItem.appendChild(deleteButton);
+
+        taskList.appendChild(taskItem);
+
+        inputTask.value = '';
+        messagedesc.value = '';
+      }
+    }
+
+function editTask(event) {
+  const taskItem = event.target.parentNode;
+  const taskSpan = taskItem.querySelector('span:nth-of-type(2)'); // Selecting the second span
+  const messageSpan = taskItem.querySelector('span:nth-of-type(3)'); // Selecting the third span
+  const editButton = taskItem.querySelector('button');
+
+  if (editButton.textContent === 'Edit') {
+    const inputFieldTitle = document.createElement('input');
+    const inputFieldMessage = document.createElement('textarea');
+
+    inputFieldTitle.type = 'text';
+    inputFieldTitle.value = taskSpan.textContent;
+    taskItem.replaceChild(inputFieldTitle, taskSpan);
+
+    inputFieldMessage.value = messageSpan.textContent;
+    taskItem.replaceChild(inputFieldMessage, messageSpan);
+
+    editButton.textContent = 'Save';
+  } else {
+    const inputFieldTitle = taskItem.querySelector('input');
+    const inputFieldMessage = taskItem.querySelector('textarea');
+
+    taskSpan.textContent = inputFieldTitle.value;
+    taskItem.replaceChild(taskSpan, inputFieldTitle);
+
+    messageSpan.textContent = inputFieldMessage.value;
+    taskItem.replaceChild(messageSpan, inputFieldMessage);
+
+    editButton.textContent = 'Edit';
+  }
+}
+
+    function deleteTask(event) {
+      const taskItem = event.target.parentNode;
+      taskList.removeChild(taskItem);
+    }
+  </script>
+</body>
+</html>
